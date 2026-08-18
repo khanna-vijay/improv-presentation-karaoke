@@ -1081,13 +1081,13 @@ function paintSlide(){
   const thx = $('#thanksCard'), num = $('#pageNum');
   thx.classList.remove('on');
 
-  /* "Slide 3 of 12" — counts the IMAGES only, not the opening or closing cards,
+  /* "3 of 12" — counts the IMAGES only, not the opening or closing cards,
      because that is the number the performer is pacing against. Always shown,
      independent of the assistant tick-box. */
   const nImg = c.slides.length;
   if (p.kind === 'image'){
     num.classList.remove('off');
-    num.textContent = `Slide ${POS} of ${nImg}`;
+    num.textContent = `${POS} of ${nImg}`;
   } else {
     num.classList.add('off');
   }
