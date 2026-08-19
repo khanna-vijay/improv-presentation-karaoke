@@ -15,12 +15,27 @@
   lives behind the ⚙ Settings drawer, and every word of explanation lives
   behind the ? Help sheet. Resist putting anything else on the default view.
 
+  The result card carries TWO pieces of information and one button: the format
+  the wheel landed on, and the shape that format follows. There is deliberately
+  no scenario block, no beat table and no thumbnail strip — a facilitator
+  glancing at the laptop in front of a room must not be able to spoil a slide,
+  and the rules belong in Help, not on the card. The premise is available to the
+  facilitator on the S key. Do not put a third thing on this card.
+
+  One spin re-rolls the format, the premise and the slides together. There is no
+  separate shuffle button; the wheel is the shuffle.
+
+  Slides from the last COOLDOWN_DECKS decks are held out of the next draw, so a
+  session of back-to-back rounds does not keep serving the same images. A typed
+  seed switches that off, because a seed must reproduce its deck exactly.
+
   While presenting: the image, and nothing else, except one very small beat cue
   in the bottom-right corner for the performer. Every deck opens on a blank
   title card (Presenter / Venue / Topic) that the performer fills in out loud.
 
   Keys:  <-  ->  navigate   ·   F fullscreen   ·   B beat overlay
          N new deck         ·   Esc back to the lobby
+  Lobby: S scenario         ·   N spin
 -->
 <html lang="en">
 <head>
@@ -65,8 +80,12 @@
   .toolwrap{display:flex;flex-direction:column;align-items:center;gap:5px}
   .icon{width:84px;height:84px;border-radius:50%;background:var(--card);
     box-shadow:var(--shadow);display:grid;place-items:center;font-size:36px;
-    font-weight:800;transition:.18s;color:var(--dim)}
+    font-weight:800;transition:.18s;color:var(--dim);
+    text-decoration:none}                      /* .icon is used on <a> too */
   .icon:hover{transform:translateY(-2px);color:var(--ink)}
+  /* The source link. Deliberately the quietest of the three — it is for people
+     looking at the project, not for anyone running a round. */
+  .icon.code svg{width:44px;height:44px;fill:currentColor;display:block}
   /* Help is the one thing a first-time facilitator must be able to find. */
   .icon.help{color:#3A2E10;background:var(--sun);font-size:38px;
     box-shadow:0 8px 22px rgba(255,207,86,.6)}
@@ -120,7 +139,6 @@
     font-size:13.5px;font-weight:700;color:var(--dim);user-select:none}
   .tick input{width:19px;height:19px;accent-color:var(--sun);cursor:pointer;margin:0}
   .tick em{font-style:normal;font-weight:400;opacity:.8}
-  .row{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:center}
 
   /* result card, revealed after the spin lands — scrolls inside itself so the
      page as a whole never gains a scrollbar */
@@ -129,50 +147,30 @@
   #result.on{opacity:1;transform:none;pointer-events:auto}
   .card{background:var(--card);border-radius:var(--r);box-shadow:var(--shadow);
     padding:22px 24px;border-top:7px solid var(--accent)}
-  .card h2{font-size:25px;line-height:1.2}
-  .blurb{color:var(--dim);font-size:14.5px;margin-top:7px}
-  .scenline{margin-top:15px;padding:14px 16px;border-radius:16px;background:#FBF6F1;
+  /* The card carries exactly two pieces of information: what format the wheel
+     landed on, and the shape that format follows. Everything the facilitator
+     used to read off this card now lives in the ? Help sheet. Do not add a
+     third thing — the emptiness is the point, and it is what lets a performer
+     glance at the laptop without accidentally reading the deck. */
+  .card{text-align:center}
+  .card h2{font-size:clamp(26px,3.1vw,38px);line-height:1.16}
+  .shape{margin-top:16px;font-size:clamp(15px,1.35vw,18px);line-height:1.9;
+    color:#5C5C6E;font-weight:600;max-width:40ch;margin-inline:auto}
+  /* Break the line at the arrows, never inside a step — "but wait, there's
+     worse" splitting across two lines reads as two steps instead of one. */
+  .shape span{white-space:nowrap}
+  .shape i{font-style:normal;color:#C3B6CE;font-weight:800}
+
+  /* the premise — shown only in the facilitator's S drawer, never on the card */
+  .scenline{padding:15px 17px;border-radius:16px;background:#FBF6F1;
     font-size:15px;line-height:1.65}
   .scenline .lab{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;
     color:var(--dim);font-weight:800;display:block;margin-bottom:4px}
-  .scenline.rolling{color:var(--dim);font-style:italic}
-  /* the premise, on the spinner screen only — never projected */
-  .exline{margin-top:15px;padding:14px 17px;border-radius:16px;
-    border:2px dashed #E2D8EC;background:rgba(250,246,255,.7);font-size:16px;
-    line-height:1.55}
-  .exline .exl{display:block;font-size:11.5px;letter-spacing:.17em;
-    text-transform:uppercase;color:#9186A8;font-weight:800;margin-bottom:5px}
-  .exline .exh{margin-top:6px;font-style:italic;color:#6B5F84;font-size:15px}
-  .exline.rolling{color:var(--dim)}
-  .chips{display:flex;gap:7px;flex-wrap:wrap;margin-top:13px}
-  .chip{padding:5px 13px;border-radius:99px;background:#F5EFE9;font-size:12.5px;
-    font-weight:700;color:#6C6C7E}
-
-  details.fac{margin-top:16px}
-  details.fac summary{cursor:pointer;font-size:13.5px;font-weight:700;color:var(--dim);
-    list-style:none;padding:7px 0}
-  details.fac summary::-webkit-details-marker{display:none}
-  details.fac summary::before{content:"▸";display:inline-block;transition:.2s;
-    margin-right:7px}
-  details.fac[open] summary::before{transform:rotate(90deg)}
-  .beats{display:flex;gap:7px;flex-wrap:wrap;margin-top:6px}
-  .bt{flex:1 1 108px;min-width:108px;background:#FBF6F1;border-radius:13px;padding:9px 11px}
-  .bt.first{background:#F2F7FF}
-  .bt .n{font-size:10.5px;color:var(--dim);font-weight:800;letter-spacing:.09em}
-  .bt .b{font-weight:800;font-size:13px;margin-top:1px}
-  .bt .d{font-size:11.5px;color:var(--dim);margin-top:3px;line-height:1.4}
-  .thumbs{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;
-    margin-top:12px}
-  .thumb{border-radius:13px;overflow:hidden;background:#EFE7E0;cursor:pointer;
-    transition:.15s;box-shadow:0 3px 10px rgba(90,70,60,.10)}
-  .thumb:hover{transform:translateY(-2px)}
-  .thumb img{width:100%;aspect-ratio:16/9;object-fit:cover;display:block}
-  .thumb .cap{padding:6px 9px;font-size:11px;color:var(--dim);font-weight:700}
-  .thumb.tcard{aspect-ratio:16/9;display:grid;place-items:center;text-align:center;
-    font-size:11.5px;color:var(--dim);font-weight:700;background:#F2F7FF;padding:8px}
+  .scenline .hook{margin-top:10px;font-style:italic;color:#6B5F84}
+  .scenline .meta{margin-top:8px;color:#7A7A8C;font-size:14px}
 
   .warn{background:#FFF1DC;border-radius:14px;padding:13px 16px;font-size:14px;
-    color:#8A5A16;margin-top:12px}
+    color:#8A5A16;margin-top:14px;text-align:left}
 
   /* ---------------- settings drawer / help sheet ---------------- */
   .scrim{position:fixed;inset:0;background:rgba(43,43,58,.34);backdrop-filter:blur(3px);
@@ -302,6 +300,16 @@
     <div class="logo"><span class="dot">🎤</span> PowerPoint Karaoke</div>
     <div class="tools">
       <div class="toolwrap">
+        <a class="icon code" id="btnCode"
+           href="https://github.com/khanna-vijay/improv-presentation-karaoke"
+           target="_blank" rel="noopener"
+           title="Source code on GitHub — MIT licensed, yours to reuse"
+           aria-label="Source code on GitHub">
+          <svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27s1.36.09 2 .27c1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+        </a>
+        <span class="toollab">Code</span>
+      </div>
+      <div class="toolwrap">
         <button class="icon" id="btnSet" title="Settings" aria-label="Settings">⚙</button>
         <span class="toollab">Settings</span>
       </div>
@@ -315,14 +323,15 @@
 
   <main>
     <div class="spincol">
-      <div class="kicker" id="kicker">Spin for a talk format. Everything else is already random.</div>
+      <div class="kicker" id="kicker">Spin for a talk format. Everything else is already random.
+        New to this? Press <b>?</b> for the rules.</div>
 
       <div class="wheelwrap">
         <svg id="wheel" viewBox="0 0 420 420" aria-label="Format spinner"></svg>
         <div class="hub">🎡</div>
       </div>
 
-      <button class="cta" id="spin">SPIN</button>
+      <button class="cta" id="spin">SPIN THE WHEEL</button>
 
       <label class="tick">
         <input type="checkbox" id="assist" checked>
@@ -363,7 +372,25 @@
   <div class="fld">
     <button class="ghost" id="applySet">Apply &amp; rebuild deck</button>
   </div>
+
+  <div class="fld" style="margin-top:26px">
+    <label>Session variety</label>
+    <div class="hint" id="cooldownInfo"></div>
+    <div style="margin-top:9px"><button class="ghost" id="resetHist">Reset session history</button></div>
+  </div>
+
   <div class="hint" id="libinfo" style="margin-top:26px"></div>
+</div>
+
+<!-- ==================== SCENARIO (facilitator, S key) ==================== -->
+<div class="panel" id="scenPanel">
+  <button class="close" id="scenClose" aria-label="Close">✕</button>
+  <h3>Scenario</h3>
+  <div class="hint">For the facilitator and the performer. Read it aloud, then close it.
+    Never projected.</div>
+  <div style="margin-top:18px" id="scenBody"></div>
+  <div class="hint" style="margin-top:18px">Press <kbd>S</kbd> on the lobby to open this
+    again. Change or switch off the premise in <b>⚙ Settings</b>.</div>
 </div>
 
 <!-- ============================ HELP ============================ -->
@@ -412,25 +439,66 @@
   </div>
 
   <div class="hsec">
+    <h4>The rules</h4>
+    <ol>
+      <li><b>You have never seen the deck.</b> Nobody shows it to you, and you do
+      not get to look first. That is not a handicap, it is the game.</li>
+      <li><b>Every slide is yours.</b> You made it. You chose it. You put it in
+      this talk on purpose. Explain it that way.</li>
+      <li><b>Never break.</b> No apologising, no "I have no idea what this is", no
+      laughing at your own deck, no asking the room what they think it means.
+      Breaking is the only way to actually lose.</li>
+      <li><b>Never describe the picture.</b> "This is a photo of a horse" is
+      nothing. "Q3 is the horse" is the game.</li>
+      <li><b>Keep the thread.</b> Each slide has to connect to the one before it,
+      however absurd the join. You are giving one talk, not narrating ten
+      unrelated images.</li>
+      <li><b>Land the ending.</b> The deck finishes on a Thank You card. Finish on
+      an ask, take questions in character, and stay in character for those too.</li>
+      <li><b>Audience rule:</b> laugh, do not heckle, and never tell the performer
+      what a slide "really" is.</li>
+    </ol>
+    <p class="callout">The whole game in one line: <b>the slide is never wrong,
+    only your explanation is missing.</b></p>
+  </div>
+
+  <div class="hsec">
     <h4>How to play — the short version</h4>
     <ol>
-      <li>Press the big <b>SPIN</b> button. The wheel lands on a talk format.</li>
-      <li>Read the performer their <b>Example Scenario</b> — who they are and what
-      the occasion is. Open <b>Facilitator view</b> if you also want to tell them
-      the shape of the deck.</li>
-      <li><b>Never show them the slides.</b> Turn the laptop away, or open the
-      collapsible sections only while they are out of the room.</li>
+      <li>Press <b>SPIN THE WHEEL</b>. It lands on a talk format and deals a deck
+      behind the scenes.</li>
+      <li>The card shows two things: the <b>format</b>, and the <b>shape</b> the
+      talk follows. Read the shape out to the performer — it is the only help they
+      get, and it is what stops the talk becoming a list.</li>
+      <li>Want a premise as well? Press <kbd>S</kbd> for a scenario — who they are
+      and what the occasion is — and read it aloud. Optional; plenty of groups
+      prefer to shout one out instead.</li>
       <li>Press <b>▶ Start presenting</b>. Go fullscreen with <kbd>F</kbd>.</li>
       <li>Advance with <kbd>→</kbd>. Either drive it yourself every 20–30 seconds,
       or let the performer say "next slide" when they run dry. Driving it yourself
       is harder and funnier.</li>
-      <li>The deck ends on a <b>Thank You</b> card. Let the performer take two
-      questions in character, then press <kbd>Esc</kbd> and <b>SPIN</b> for the
-      next player. Every spin is a brand-new deck.</li>
+      <li>At the Thank You card, take two questions in character, then <kbd>Esc</kbd>
+      and <b>SPIN AGAIN</b> for the next player.</li>
     </ol>
     <p class="callout"><b>New group?</b> Leave <b>Slide assistant text</b> ticked
     for the first few rounds — the corner cue tells the performer what each slide
     is for and stops anyone freezing. Untick it once they have the hang of it.</p>
+  </div>
+
+  <div class="hsec">
+    <h4>Spinning again</h4>
+    <p>There is only one button, and it does everything. <b>Every spin re-rolls
+    the format, the premise and all of the slides together.</b> Spin as many times
+    as you like — landing on the same format twice still deals a completely
+    different deck.</p>
+    <p>The app also <b>remembers what it has already shown you</b>. Slides used in
+    the last four decks are held back from the next draw, so the same image does
+    not turn up two rounds running and every performer gets a genuinely fresh set.
+    It relaxes automatically if a run is long enough to need to.</p>
+    <p class="callout"><b>Nobody previews the deck — not even the facilitator.</b>
+    There is no thumbnail view on this screen on purpose. You cannot spoil a slide
+    you have not seen, and the person running the laptop reacting honestly is half
+    the fun for the room.</p>
   </div>
 
   <div class="hsec">
@@ -475,16 +543,17 @@
       <li><b>Deck length</b> — 8 to 12 slides. Shorter is kinder; longer forces a
       real ending rather than a sprint.</li>
       <li><b>Scenario</b> — choose a specific premise, pick <i>Random</i>, or
-      <i>No scenario</i> to have the audience shout one out instead.</li>
+      <i>No scenario</i> to have the audience shout one out instead. Choosing one
+      by hand <b>pins</b> it, so later spins stop re-rolling it.</li>
       <li><b>Seed</b> — type any number to reproduce the exact same deck later.
       Use it to run the <i>same</i> deck with three different performers, which is
-      the best teaching exercise in the whole game.</li>
+      the best teaching exercise in the whole game. A typed seed also switches off
+      the session cooldown, so the deck it names is exactly the deck you get.</li>
+      <li><b>Session variety</b> — how many slides are currently being held back.
+      <i>Reset session history</i> clears it, which is what you want when a new
+      group takes over the laptop.</li>
       <li><b>Apply &amp; rebuild deck</b> — commits your changes.</li>
     </ul>
-    <p>On the result card, <b>🎲 Shuffle Slides</b> deals a completely fresh round —
-    new slides <i>and</i> a new scenario — while keeping the format you spun.
-    Use it when a premise does not land, or to give the next player a different
-    run at the same talk style.</p>
   </div>
 
   <div class="hsec">
@@ -543,6 +612,18 @@
        <kbd>B</kbd> beat overlay (facilitator) &nbsp;·&nbsp;
        <kbd>N</kbd> new deck &nbsp;·&nbsp; <kbd>Esc</kbd> exit</p>
     <p>Clicking the slide also advances it.</p>
+    <p><b>On the lobby:</b> <kbd>S</kbd> shows the scenario &nbsp;·&nbsp;
+       <kbd>N</kbd> spins the wheel.</p>
+  </div>
+
+  <div class="hsec">
+    <h4>The code</h4>
+    <p>The whole thing — the game, the pipeline that generates the slides, and the
+    slides themselves — is open source under the MIT licence. Take it, fork it,
+    run it at your own event, generate your own library.
+    <a href="https://github.com/khanna-vijay/improv-presentation-karaoke"
+       target="_blank" rel="noopener">github.com/khanna-vijay/improv-presentation-karaoke</a>
+    — or press the <b>Code</b> button at the top of the screen.</p>
   </div>
 </div>
 
@@ -669,10 +750,48 @@ function weightOf(s, theme, target, motifs){
   return Math.max(w, 1e-6);
 }
 
-function drawDeck(theme, themeName, arcName, n, rnd){
+/* ---- session memory ------------------------------------------------------
+   A slide turning up two rounds running reads as the library repeating itself,
+   even when the draw was perfectly fair — with ~11 slides off a pool of 180,
+   coincidence alone puts a repeat in back-to-back decks surprisingly often.
+   So every dealt deck is remembered and its slides are held out of the next
+   few draws. This is a SOFT constraint: it is applied as the first of four
+   candidate tiers, so a thin beat quietly relaxes it rather than failing to
+   build a deck at all.                                                        */
+const COOLDOWN_DECKS = 4;
+let HISTORY = [];                       // [ [slideId, …], … ] oldest → newest
+
+/* Never let the cooldown eat the library. If history would hold out more than
+   45% of the pool, only the most recent decks are honoured. */
+function cooldownSet(){
+  const cap = Math.max(0, Math.floor(L.slides.length * 0.45));
+  const s = new Set();
+  for (const ids of HISTORY.slice(-COOLDOWN_DECKS).reverse()){   // newest first
+    if (s.size >= cap) break;
+    ids.forEach(id => s.add(id));
+  }
+  return s;
+}
+function rememberDeck(ids){
+  HISTORY.push(ids);
+  if (HISTORY.length > COOLDOWN_DECKS) HISTORY = HISTORY.slice(-COOLDOWN_DECKS);
+  refreshCooldownInfo();
+}
+function refreshCooldownInfo(){
+  const el = $('#cooldownInfo'); if (!el) return;
+  const held = cooldownSet().size, decks = HISTORY.length;
+  el.textContent = decks
+    ? `${decks} deck${decks === 1 ? '' : 's'} dealt this session · ${held} slide` +
+      `${held === 1 ? '' : 's'} held back from the next draw.`
+    : `Nothing dealt yet. Slides from the last ${COOLDOWN_DECKS} decks are ` +
+      `held back so rounds do not repeat themselves.`;
+}
+
+function drawDeck(theme, themeName, arcName, n, rnd, cool){
   const beats = resolveArc(arcName, n);
   const curve = difficultyCurve(theme, arcName, n);
   const pool  = L.slides;
+  cool = cool || new Set();
 
   const counts = {};
   pool.forEach(s => s.motifs.forEach(m => counts[m] = (counts[m]||0)+1));
@@ -689,12 +808,19 @@ function drawDeck(theme, themeName, arcName, n, rnd){
 
   let best = null;
   for (let attempt=0; attempt<200; attempt++){
-    const chosen = [], used = new Set(); let ok = true;
+    const chosen = [], used = new Set(); let ok = true, reused = 0;
     for (let i=0;i<beats.length;i++){
-      let cands = pool.filter(s => serves(s.beats, beats[i]) && !used.has(s.id) &&
-                                   (!chosen.length || s.type !== chosen[chosen.length-1].type));
-      if (!cands.length) cands = pool.filter(s => serves(s.beats, beats[i]) && !used.has(s.id));
-      if (!cands.length){ ok = false; break; }
+      const base = pool.filter(s => serves(s.beats, beats[i]) && !used.has(s.id));
+      const prevType = chosen.length ? chosen[chosen.length-1].type : null;
+      /* Preference order: fresh + type-varied, fresh, type-varied, anything.
+         Falling past tier 2 means a recently-seen slide had to come back. */
+      const fresh = base.filter(s => !cool.has(s.id));
+      const tiers = [fresh.filter(s => s.type !== prevType), fresh,
+                     base.filter(s => s.type !== prevType), base];
+      const ti = tiers.findIndex(t => t.length);
+      if (ti === -1){ ok = false; break; }
+      if (ti >= 2) reused++;
+      const cands = tiers[ti];
       const s = wpick(rnd, cands, cands.map(c => weightOf(c, theme, curve[i], motifs)));
       chosen.push(s); used.add(s.id);
     }
@@ -709,12 +835,17 @@ function drawDeck(theme, themeName, arcName, n, rnd){
     types.forEach(t => { if (types.filter(x=>x===t).length > cap) bad += 1; });  // R5
     if (chosen.filter(s=>s.difficulty>=5).length > 1) bad += 5;                 // R8
     if (!chosen.some(s=>s.text_weight==='none')) bad += 1;                      // R7
+    /* R10 — freshness. Weighted below R1 so the optimiser will still take a
+       recently-seen slide rather than run two of the same type back to back. */
+    const varietyBad = bad;
+    bad += reused * 6;
 
-    if (!best || bad < best.bad) best = {chosen, bad};
+    if (!best || bad < best.bad) best = {chosen, bad, varietyBad, reused};
     if (bad === 0) break;
   }
   if (!best) throw new Error('Could not assemble a deck from the current library.');
-  return {slides: best.chosen, beats, motifs, relaxed: best.bad > 0};
+  return {slides: best.chosen, beats, motifs,
+          relaxed: best.varietyBad > 0, reused: best.reused};
 }
 
 function transition(a,b){ return L.transitions[a+'>'+b] || L.transition_default; }
@@ -771,12 +902,17 @@ function wedgeAt(angle){
   return (Math.round(((360 - a) % 360) / step) % n + n) % n;
 }
 
-/* Settle on a wedge: land it exactly under the pointer, relabel, build the deck. */
+/* Settle on a wedge: land it exactly under the pointer, relabel, build the deck.
+   Also re-rolls the premise, so one spin = one whole fresh round. A premise the
+   facilitator chose by hand in Settings is left alone. */
 function settleOn(idx){
   $('#spin').textContent = 'SPIN AGAIN';
-  $('#kicker').textContent = 'Read the performer their scenario, then start.';
+  $('#kicker').textContent =
+    'Spin again any time — every spin is a brand-new deck. Press S for the scenario.';
   paintWheel(wheelAngle % 360);          // re-flip labels for the settled position
   themeSel.value = THEME_KEYS[idx];
+  if (!showPinned && L.shows.length)
+    showSel.value = L.shows[rint(L.shows.length)].id;
   compile(THEME_KEYS[idx]);
 }
 
@@ -872,6 +1008,10 @@ themeSel.value = THEME_KEYS[rint(THEME_KEYS.length)];
 numSel.value   = String(9 + rint(3));                 // 9-11, mid of the 8-12 band
 showSel.value  = L.shows.length ? L.shows[rint(L.shows.length)].id : '__none';
 
+/* Set once the facilitator picks a premise by hand: after that, spinning stops
+   re-rolling it, so a chosen scenario survives as many spins as they want. */
+let showPinned = false;
+
 /* Assistant text is OFF until the facilitator asks for it. This governs EVERY
    piece of helper text drawn over the presentation: the corner beat cue and the
    key-map bar. Nothing but the image should reach the screen by default. */
@@ -894,10 +1034,18 @@ let CURRENT = null;
 function compile(themeName, seedOverride){
   const theme = L.themes[themeName];
   const arcName = theme.arc;
-  const raw = seedOverride ?? ($('#seedIn').value.trim() || String(rint(1e9)));
+  const pinnedSeed = $('#seedIn').value.trim();
+  const raw = seedOverride ?? (pinnedSeed || String(rint(1e9)));
   const seed = /^\d+$/.test(raw) ? parseInt(raw,10)
              : Array.from(raw).reduce((a,c)=>((a<<5)-a+c.charCodeAt(0))|0, 7);
   const rnd = rngFrom(seed);
+
+  /* A typed seed is a promise that the same number gives the same deck — running
+     one deck past three performers is the best teaching exercise in the game.
+     Session history would quietly break that promise, so an explicit seed opts
+     out of the cooldown entirely, and its deck is not recorded against it. */
+  const reproducible = !!pinnedSeed && seedOverride == null;
+  const cool = reproducible ? new Set() : cooldownSet();
 
   let n = parseInt(numSel.value,10);
   n = Math.max(theme.len[0], Math.min(n, theme.len[1], L.arcs[arcName].max));
@@ -914,7 +1062,7 @@ function compile(themeName, seedOverride){
   else if (sv !== '__none') show = L.shows.find(s=>s.id===sv) || null;
 
   let deck;
-  try { deck = drawDeck(theme, themeName, arcName, n, rnd); }
+  try { deck = drawDeck(theme, themeName, arcName, n, rnd, cool); }
   catch(e){
     $('#result').className = 'on';
     $('#result').innerHTML = `<div class="card"><div class="warn"><b>Cannot build a deck.</b><br>${esc(e.message)}</div></div>`;
@@ -923,13 +1071,17 @@ function compile(themeName, seedOverride){
 
   /* The closing image is drawn from what the deck did NOT use, so the performer
      has to thank the room over a picture they never got to explain. Picked from
-     the same seeded rng, so a given seed always ends the same way. */
+     the same seeded rng, so a given seed always ends the same way. Prefers a
+     slide that is also off cooldown, but never fails over it. */
   const inDeck = new Set(deck.slides.map(s => s.id));
   const spare  = L.slides.filter(s => !inDeck.has(s.id));
-  const thanks = spare.length ? pick(rnd, spare)
-               : (L.slides.length ? pick(rnd, L.slides) : null);
+  const fresh  = spare.filter(s => !cool.has(s.id));
+  const thanksPool = fresh.length ? fresh : (spare.length ? spare : L.slides);
+  const thanks = thanksPool.length ? pick(rnd, thanksPool) : null;
 
   CURRENT = {...deck, theme, themeName, arcName, seed, show, thanks};
+  if (!reproducible)
+    rememberDeck(deck.slides.map(s => s.id).concat(thanks ? [thanks.id] : []));
   render();
 }
 
@@ -941,121 +1093,66 @@ function pagesOf(c){
   return pages;
 }
 
+/* "Name it -> set the scene -> …" reads better with real arrows and a little
+   air around them. Split BEFORE escaping: esc() would turn the > into &gt;. */
+/* The spaces around the arrow are load-bearing: each step is nowrap, so without
+   real whitespace between them the browser sees one unbreakable run and the
+   line overflows the card instead of wrapping. */
+function shapeHTML(blurb){
+  return String(blurb || '').split('->')
+    .map(s => `<span>${esc(s.trim())}</span>`).join(' <i>→</i> ');
+}
+
+/* The card is the format, the shape, and the button. That is the whole design.
+   The premise lives behind S, the rules live behind ?, and the deck itself is
+   deliberately not previewable — a facilitator glancing at this screen in front
+   of a room cannot accidentally spoil a slide. */
 function render(){
-  const c = CURRENT, arc = L.arcs[c.arcName], sh = c.show;
+  const c = CURRENT, arc = L.arcs[c.arcName];
   document.documentElement.style.setProperty('--accent', tColour(c.themeName));
-
-  const beatCards =
-    `<div class="bt first"><div class="n">01</div><div class="b">Opening card</div>
-       <div class="d">Blank. Say your name, the venue and your topic.</div></div>` +
-    c.beats.map((b,i)=>{
-      const stem = stemOf(c.arcName, b);
-      return `<div class="bt"><div class="n">${String(i+2).padStart(2,'0')}</div>
-        <div class="b">${esc(stem || bShort(b))}</div>
-        <div class="d">${esc(stem ? L.beats[b].name : L.beats[b].do)}</div></div>`;
-    }).join('') +
-    `<div class="bt first"><div class="n">${String(c.beats.length+2).padStart(2,'0')}</div>
-       <div class="b">Thank You</div>
-       <div class="d">Closing card over an unused image. Take questions in character.</div></div>`;
-
-  const thumbs =
-    `<div class="thumb tcard" data-i="0">Opening card<br>Presenter · Venue · Topic</div>` +
-    c.slides.map((s,i)=>`
-      <div class="thumb" data-i="${i+1}">
-        <img loading="lazy" src="${s.web || s.src}" alt="">
-        <div class="cap">${String(i+2).padStart(2,'0')} · ${esc(bShort(c.beats[i]))}</div>
-      </div>`).join('') +
-    (c.thanks ? `
-      <div class="thumb" data-i="${c.slides.length+1}">
-        <img loading="lazy" src="${c.thanks.web || c.thanks.src}" alt="">
-        <div class="cap">${String(c.slides.length+2).padStart(2,'0')} · Thank You</div>
-      </div>` : '');
-
-  /* Collapsed by default. The default card is deliberately three things only:
-     the format, the shape it follows, and the button that starts the round. */
-  const scen = sh ? `
-    <div class="scenline" id="scenBox">
-      <b>${esc(sh.title)}</b> — you are ${esc(stop(sh.character))}
-      ${esc(stop(sh.situation))}
-      <div style="margin-top:7px;color:#7A7A8C">Audience: ${esc(stop(sh.audience))}
-        Stakes: ${esc(stop(sh.stakes))}</div>
-      <div style="margin-top:9px;font-style:italic">“${esc(sh.hook_line)}”</div>
-    </div>` : `
-    <div class="scenline" id="scenBox">Called live by the audience or facilitator.</div>`;
 
   $('#result').innerHTML = `
     <div class="card">
       <h2>${esc(tLabel(c.themeName))}</h2>
-      <div class="blurb">${esc(arc.blurb)}</div>
-      <div class="exline" id="exLine">
-        <span class="exl">Example Scenario</span>
-        ${sh ? `<b>${esc(sh.title)}</b>${sh.hook_line
-                  ? `<div class="exh">“${esc(sh.hook_line)}”</div>` : ''}`
-             : 'Called live by the audience or facilitator.'}
-      </div>
-      <div class="row" style="margin-top:18px;justify-content:flex-start">
-        <button class="cta go" id="present" style="margin-top:0;padding:15px 34px;font-size:17px">▶ Start presenting</button>
-        <button class="ghost" id="shuffle">🎲 Shuffle Slides</button>
-      </div>
+      <div class="shape">${shapeHTML(arc.blurb)}</div>
+      <button class="cta go" id="present">▶ Start presenting</button>
       ${c.relaxed ? '<div class="warn">Variety rules were relaxed — the rendered pool is still thin.</div>' : ''}
-      <details class="fac" id="detScen">
-        <summary>Scenario — ${esc(sh ? sh.title : 'called live')}</summary>
-        ${scen}
-      </details>
-      <details class="fac" id="detFac">
-        <summary>Facilitator view — the shape and the slides (do not project)</summary>
-        <div class="chips" style="margin-top:2px">
-          <span class="chip">${c.slides.length + (c.thanks ? 2 : 1)} pages</span>
-          <span class="chip">${esc(arc.label || c.arcName)}</span>
-          <span class="chip mono">seed ${c.seed}</span>
-        </div>
-        <div class="beats">${beatCards}</div>
-        <div class="thumbs">${thumbs}</div>
-      </details>
     </div>`;
   $('#result').classList.add('on');
   document.getElementById('app').classList.add('split');
 
   $('#present').onclick = () => present(0);
-  $('#shuffle').onclick = shuffleAll;
-  document.querySelectorAll('.thumb').forEach(t =>
-    t.onclick = () => present(parseInt(t.dataset.i,10)));
+  renderScenario();
 }
 
-/* ---- One roulette for the whole round. ------------------------------------
-   There used to be two buttons. They confused more than they helped: the deck
-   and the premise are one unit from the performer's point of view, and nobody
-   wants "same slides, different scenario" often enough to justify the choice.
-   This re-rolls BOTH — new scenario, new slides — behind a single reel that
-   animates the premise line and the thumbnails together, then settles.        */
-function shuffleAll(){
-  if (!CURRENT) return;
-  const btn  = $('#shuffle');
-  const line = $('#exLine');
-  btn.disabled = true;
-  if (line) line.classList.add('rolling');
+/* The premise, for the facilitator's eyes only — opened with S, never on the
+   card and never projected. */
+/* The seed writes each character as a standalone sentence ("A deeply out-of-touch
+   guest speaker"), but we splice it after "you are", where the capital reads as a
+   typo. Only ever lowers a leading article, so proper nouns survive. */
+const midSentence = t => String(t || '').replace(/^(An?|The)\b/, m => m.toLowerCase());
 
-  const target = L.shows.length ? L.shows[rint(L.shows.length)] : null;
-  let delay = 50;
-  (function tick(){
-    // premise reel
-    if (line && L.shows.length){
-      const s = L.shows[rint(L.shows.length)];
-      line.innerHTML = `<span class="exl">Example Scenario</span><b>${esc(s.title)}</b>`;
-    }
-    // thumbnail reel (only visible if the facilitator has the panel open)
-    document.querySelectorAll('.thumb img').forEach(im => {
-      const r = L.slides[rint(L.slides.length)];
-      im.src = r.web || r.src;
-    });
-    delay *= 1.18;
-    if (delay < 300) return setTimeout(tick, delay);
-
-    if (target) showSel.value = target.id;
-    btn.disabled = false;
-    compile(CURRENT.themeName, String(rint(1e9)));   // new seed -> new slides
-  })();
+function renderScenario(){
+  const sh = CURRENT && CURRENT.show;
+  const genre = sh && ((L.genres && L.genres[sh.genre]) || sh.genre);
+  $('#scenBody').innerHTML = sh ? `
+    <div class="scenline">
+      <span class="lab">${esc(genre || 'Premise')}</span>
+      <b>${esc(sh.title)}</b> — you are ${esc(midSentence(stop(sh.character)))}
+      ${esc(stop(sh.situation))}
+      <div class="meta">Audience: ${esc(stop(sh.audience))}
+        Stakes: ${esc(stop(sh.stakes))}</div>
+      ${sh.hook_line ? `<div class="hook">“${esc(sh.hook_line)}”</div>` : ''}
+    </div>` : `
+    <div class="scenline">No premise set — the audience or the facilitator calls
+      one out live, just before the performer starts.</div>`;
 }
+
+/* There is no longer a Shuffle Slides button. The wheel IS the shuffle: every
+   spin re-rolls the format, the premise and the slides together, which is one
+   gesture instead of two buttons that did overlapping things. Spinning the same
+   format twice still deals a different deck, because each spin takes a new
+   seed — and session history keeps the two from overlapping.                  */
 
 /* =====================================================================
    5. full-screen player — image only, plus one small corner cue
@@ -1140,8 +1237,11 @@ function exitPlayer(){
 document.addEventListener('keydown', e => {
   if (!playing){
     if (drawerOpen() && e.key === 'Escape') return closeAll();
-    if ((e.key === 'n' || e.key === 'N') && !drawerOpen() &&
-        !/^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) spin();
+    if (drawerOpen() ||
+        /^(INPUT|SELECT|TEXTAREA)$/.test(document.activeElement.tagName)) return;
+    if (e.key === 'n' || e.key === 'N') spin();
+    /* S — the premise, for the facilitator to read out. Off the card by design. */
+    if ((e.key === 's' || e.key === 'S') && CURRENT){ renderScenario(); open(scenPanel); }
     return;
   }
   switch(e.key){
@@ -1168,9 +1268,11 @@ $('#stage').addEventListener('click', () => {
    6. drawers
    ===================================================================== */
 const scrim = $('#scrim'), setPanel = $('#setPanel'), helpPanel = $('#helpPanel');
-const drawerOpen = () => setPanel.classList.contains('on') || helpPanel.classList.contains('on');
+const scenPanel = $('#scenPanel');
+const PANELS = [setPanel, helpPanel, scenPanel];
+const drawerOpen = () => PANELS.some(p => p.classList.contains('on'));
 function closeAll(){
-  [scrim, setPanel, helpPanel].forEach(el => el.classList.remove('on'));
+  [scrim, ...PANELS].forEach(el => el.classList.remove('on'));
 }
 function open(p){ closeAll(); scrim.classList.add('on'); p.classList.add('on'); }
 
@@ -1178,8 +1280,16 @@ $('#btnSet').onclick    = () => open(setPanel);
 $('#btnHelp').onclick   = () => open(helpPanel);
 $('#setClose').onclick  = closeAll;
 $('#helpClose').onclick = closeAll;
+$('#scenClose').onclick = closeAll;
 scrim.onclick           = closeAll;
-$('#applySet').onclick  = () => { closeAll(); compile(themeSel.value); };
+$('#applySet').onclick  = () => {
+  showPinned = true;             // a hand-picked premise survives later spins
+  closeAll();
+  compile(themeSel.value);
+};
+
+$('#resetHist').onclick = () => { HISTORY = []; refreshCooldownInfo(); };
+refreshCooldownInfo();
 
 $('#spin').onclick = spin;
 </script>
