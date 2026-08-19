@@ -522,14 +522,23 @@
     and <i>Topic</i> over blank lines. Nothing is filled in. The performer invents
     and says all four out loud. It gives them a running start before the first
     real image lands, and it is the same card in every format.</p>
-    <p><b>The corner cue</b> — one small word in the bottom-right of each slide:
-    <i>Prelude</i>, <i>Context</i>, <i>Data</i>, <i>Problem</i>, <i>Insight</i>,
-    <i>Pivot</i>, <i>Aspiration</i>, <i>Plan</i>, <i>Personal Story</i>,
-    <i>Call to Action</i>. It tells the performer what this slide is <b>for</b>,
-    never what it shows. It is <b>on by default</b>. Untick <b>Slide assistant
-    text</b> on the spinner screen to hide it — along with the on-screen key
-    reminders — once players are confident enough to work without a safety net.
-    Running with it off is the harder, purer version of the game.</p>
+    <p><b>The corner cue</b> — one or two small words in the bottom-right of each
+    slide. It tells the performer what this slide is <b>for</b>, never what it
+    shows.</p>
+    <p><b>Each format speaks its own language.</b> The same slot is
+    <i>Findings</i> in a PhD defence, <i>The Numbers</i> in a board room,
+    <i>Intel</i> in a mission brief, <i>Scripture</i> in a keynote and
+    <i>Specifications</i> in a product launch. A Shark Tank pitch runs
+    <i>The Hook → The Problem → But Wait → Relief → The Offer</i>; the Disney
+    spine runs <i>Once Upon A Time → And Every Day → Until One Day → Because Of
+    That</i>. So the cue is a genuine prompt in the voice of the talk, not a
+    generic label.</p>
+    <p>It is <b>on by default</b>. Untick <b>Slide assistant text</b> on the
+    spinner screen to hide it — along with the on-screen key reminders — once
+    players are confident enough to work without a safety net. Running with it
+    off is the harder, purer version of the game. Press <kbd>B</kbd> while
+    presenting for the facilitator's fuller overlay, which shows the cue, the
+    underlying beat and the line that links it to the slide before.</p>
     <p><b>The closing card</b> — the last page of every deck says
     <i>Thank You for your Valuable Time</i> over an image the deck never used, so
     the performer has to sign off in front of a picture they never got to
@@ -851,6 +860,16 @@ function drawDeck(theme, themeName, arcName, n, rnd, cool){
 function transition(a,b){ return L.transitions[a+'>'+b] || L.transition_default; }
 /* An arc that names its slots (STORY_SPINE) supplies the words itself. */
 function stemOf(arcName, beat){ return (L.arcs[arcName].stems || {})[beat] || null; }
+
+/* The corner cue, in the vocabulary of the form being performed. The same beat
+   is "Findings" in a thesis defence, "The Numbers" in a pitch, "Intel" in a
+   mission brief and "Scripture" in a sermon — showing the generic beat word in
+   all four told the performer nothing about the talk they were giving.
+   config.ARC_CUES is the source; bShort is the fallback. */
+function cueOf(arcName, beat){
+  const a = L.arcs[arcName];
+  return (a && a.cues && a.cues[beat]) || bShort(beat);
+}
 function linkLine(arcName, prevBeat, beat){
   return stemOf(arcName, beat) || (prevBeat ? transition(prevBeat, beat) : null);
 }
@@ -1212,14 +1231,17 @@ function paintSlide(){
     card.classList.remove('on');
     img.classList.remove('hide');
     img.src = p.s.web || p.s.src;
-    cue.textContent = bShort(p.beat);
+    cue.textContent = cueOf(c.arcName, p.beat);
     cue.classList.remove('dark');
     const prevPage = PAGES[POS-1];
     const prevBeat = (prevPage && prevPage.kind === 'image') ? prevPage.beat : null;
     const line = linkLine(c.arcName, prevBeat, p.beat);
     const prev = line ? `<div style="margin-top:5px;color:#D8DEE7;font-style:italic">“${esc(line)}”</div>` : '';
+    /* The facilitator overlay shows the format's word AND the generic beat it
+       maps to, so a coach can talk about the shape across formats. */
     $('#beatTag').innerHTML =
-      `<div class="k">Page ${POS+1} — ${esc(p.beat)}</div><b>${esc(L.beats[p.beat].name)}</b>` +
+      `<div class="k">Page ${POS+1} — ${esc(L.beats[p.beat].name)}</div>` +
+      `<b>${esc(cueOf(c.arcName, p.beat))}</b>` +
       `<div style="color:#A9B2C0;font-size:12.5px;margin-top:2px">${esc(L.beats[p.beat].do)}</div>${prev}`;
   }
 

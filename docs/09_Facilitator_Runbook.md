@@ -13,25 +13,46 @@ isn't, see `08_Master_Plan_and_Roadmap.md` §"Phase 4".
 ./start_slide_app.sh
 ```
 
-Opens the **deck randomiser**. Press **SPIN** → the wheel lands on a talk format → a brand-new
+Opens the **deck randomiser**. Press **SPIN THE WHEEL** → it lands on a talk format → a brand-new
 deck is compiled on the spot from the building-block library → press **Start presenting** and
 drive it with the arrow keys.
 
 **There is exactly one control on the opening screen.** Format, deck length and scenario are all
 randomised the moment the page loads, so you can open the file in front of a room and press one
-button. Everything else lives behind two icons in the top-right:
+button. Everything else lives behind three icons in the top-right:
 
 | Icon | What is behind it |
 |---|---|
-| **⚙** | Format · deck length · scenario · seed, then **Apply & rebuild deck**. Advanced only. |
-| **?** | How to play, the opening card, the corner cue, coaching notes, the key map. |
+| **⌗** | The source repository on GitHub. MIT licensed — code *and* images. |
+| **⚙** | Format · deck length · scenario · seed · session variety, then **Apply & rebuild deck**. |
+| **?** | The rules, how to play, the opening card, the corner cue, coaching notes, the key map. |
 
-On the result card, **🎲 Scenario** re-rolls just the scenario and **🎲 Slides** re-rolls just the
-images, both as visible roulettes. **Facilitator view** (collapsed by default) reveals the beat
-shape and the slide thumbnails — *do not project it*.
+#### The result card carries two things
+
+The format, and the **shape** that format follows — *Name it → set the scene → show the numbers →
+name the trouble → have the realisation → paint the promise → make the ask.* Read the shape out
+to the performer. It is the only help they get, and it is what stops the talk becoming a list.
+
+There is **no deck preview, for anybody, including you.** The old scenario block, beat table and
+thumbnail strip are gone on purpose: you cannot spoil a slide you have not seen, and the person
+driving the laptop reacting honestly is half the fun for the room.
+
+#### One button does everything
+
+There is no separate shuffle. **Every spin re-rolls the format, the premise and the slides
+together.** Landing on the same format twice still deals a completely different deck. Spin
+between performers; nothing else is needed.
+
+#### Session variety
+
+The app remembers what it has already dealt. Slides used in the **last 4 decks are held back**
+from the next draw, so the same image does not turn up two rounds running. Without it, a 40-deck
+session against the 180-slide library repeats about 21 slides in back-to-back decks; with it,
+none. It relaxes automatically if a run is long enough to need it, is capped at 45% of the
+library, and is **switched off whenever you type a seed** — a seed must reproduce its deck
+exactly. *Reset session history* in **⚙** clears it when a new group takes over the laptop.
 
 Best for: regular classes, jams, drop-ins. Zero prep, infinite decks, nothing written to disk.
-Press **N** between performers for a completely fresh deck.
 
 | Key | Action |
 |---|---|
@@ -40,6 +61,8 @@ Press **N** between performers for a completely fresh deck.
 | `B` | beat overlay (facilitator only — shows the beat and the transition line) |
 | `N` | compile a new deck, same theme |
 | `Esc` | back to the lobby |
+| `S` | **on the lobby** — show the scenario, for you to read aloud |
+| `N` | **on the lobby** — spin the wheel |
 
 #### What the performer sees on screen
 
@@ -63,7 +86,10 @@ Every deck is **opening card → 8–12 images → closing card**:
 There is no branded chrome bar, no slide numbers and no title text over the image. The picture
 carries the screen and the performer carries the room.
 
-The **Example Scenario** appears on the spinner screen only, never on the projected slides.
+The **scenario** is never on the card and never projected. Press **S** on the lobby to open it,
+read it to the performer, and close it again. It is optional — plenty of groups prefer to have
+the audience shout a premise out instead (**⚙ → Scenario → No scenario**). Picking one by hand
+*pins* it, so later spins stop re-rolling it.
 
 ### B. Pre-built folders — for a planned workshop or a strange venue
 

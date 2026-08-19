@@ -11,14 +11,20 @@ somebody explain an absurd image with total institutional conviction.
 
 ## How to run a round
 
-1. Press **SPIN**. The wheel lands on a talk format — TED Talk, Shark Tank,
+1. Press **SPIN THE WHEEL**. It lands on a talk format — TED Talk, Shark Tank,
    Board Room, Mission Brief, PhD Thesis, Product Launch, Motivational Keynote
    or Story.
-2. Read the performer their **Example Scenario**. Never show them the slides.
+2. Read the performer the **shape** on the card — *name it → set the scene →
+   show the numbers → …*. That is the only help they get. Want a premise too?
+   Press **S**.
 3. Press **▶ Start presenting** and hand over. Advance with `→`.
 
-Press **?** in the app for the full guide: why it builds spontaneity, group
-variants, a worked sample script and coaching notes.
+Nobody previews the deck, including you. Every spin re-rolls the format, the
+premise and the slides together, and slides from the last few decks are held
+back so back-to-back rounds do not repeat themselves.
+
+Press **?** in the app for the full guide: the rules, why it builds spontaneity,
+group variants, a worked sample script and coaching notes.
 
 ## What is in here
 
