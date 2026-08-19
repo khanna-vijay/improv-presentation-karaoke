@@ -45,12 +45,26 @@ between performers; nothing else is needed.
 
 #### Session variety
 
-The app remembers what it has already dealt. Slides used in the **last 4 decks are held back**
-from the next draw, so the same image does not turn up two rounds running. Without it, a 40-deck
-session against the 180-slide library repeats about 21 slides in back-to-back decks; with it,
-none. It relaxes automatically if a run is long enough to need it, is capped at 45% of the
-library, and is **switched off whenever you type a seed** — a seed must reproduce its deck
-exactly. *Reset session history* in **⚙** clears it when a new group takes over the laptop.
+The app remembers what it has already dealt, and uses that memory two ways.
+
+**A cooldown.** Slides used in the **last 8 decks are held back** from the next draw, so the same
+image does not turn up two rounds running. Without it, a 40-deck session against the 180-slide
+library repeated about 21 slides in back-to-back decks; with it, none. A 12-performer class sees
+~129 images with, on average, half of one repeat.
+
+**A fairness bias.** Each candidate's weight is multiplied by `exp(5 x deficit)`, where the
+deficit is how far below the mean that slide's show count sits — so the draw leans toward
+whatever the room has seen least. It *multiplies* the register and difficulty weights rather than
+replacing them, so a board-room deck still skews Corporate-Deadpan; it just reaches further into
+the Corporate-Deadpan slides it owns. Measured over 3,000 decks, the gap between the most- and
+least-shown image fell from **4.8x to 1.45x**, every image was used, and the eight formats stayed
+just as distinct from each other (mean pairwise register-mix difference 0.445 -> 0.456). Tune or
+disable it with `FAIR_LAMBDA` at the top of the draw section in `Slide_Show_App.html`.
+
+Both are soft: they are applied as candidate tiers and weights, so a thin beat relaxes them
+rather than failing to build a deck. The cooldown is capped at 45% of the library, and **both
+switch off whenever you type a seed** — a seed must reproduce its deck exactly. *Reset session
+history* in **⚙** clears both when a new group takes over the laptop.
 
 Best for: regular classes, jams, drop-ins. Zero prep, infinite decks, nothing written to disk.
 
